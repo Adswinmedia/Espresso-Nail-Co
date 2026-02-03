@@ -1,0 +1,1394 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espresso Nail &amp; Co - Premium Nail Salon in Vashi, Navi Mumbai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, #2d1810 0%, #4a2c1f 50%, #6b3e2e 100%);
+    }
+    
+    .text-shadow {
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    @media (max-width: 640px) {
+      .image-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
+    
+    .hero-full-height {
+      height: 100%;
+      min-height: 600px;
+      position: relative;
+    }
+    
+    .image-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .slider-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    
+    .slider-image.active {
+      opacity: 1;
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(45, 24, 16, 0.85) 0%, rgba(74, 44, 31, 0.75) 50%, rgba(107, 62, 46, 0.85) 100%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .slider-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .slider-dot.active {
+      background: #d97706;
+      width: 32px;
+      border-radius: 6px;
+    }
+    
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .lightbox.active {
+      display: flex;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+    
+    .lightbox-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .lightbox-arrow:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .lightbox-arrow.prev {
+      left: 20px;
+    }
+    
+    .lightbox-arrow.next {
+      right: 20px;
+    }
+    
+    .gallery-item {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: 640px) {
+      .lightbox-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+      
+      .lightbox-arrow.prev {
+        left: 10px;
+      }
+      
+      .lightbox-arrow.next {
+        right: 10px;
+      }
+      
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full smooth-scroll">
+  <div id="app-wrapper" class="w-full h-full overflow-auto bg-stone-50"><!-- Header -->
+   <header class="sticky-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+     <div class="flex justify-between items-center">
+      <div>
+       <h1 id="salon-name" class="text-2xl sm:text-3xl font-bold text-amber-900"></h1>
+       <p id="tagline" class="text-sm text-stone-600 mt-1"></p>
+      </div>
+      <div class="hidden md:flex space-x-4"><a href="#about" class="text-stone-700 hover:text-amber-900 transition-colors">About</a> <a href="#services" class="text-stone-700 hover:text-amber-900 transition-colors">Services</a> <a href="#testimonials" class="text-stone-700 hover:text-amber-900 transition-colors">Reviews</a> <a href="#pricing" class="text-stone-700 hover:text-amber-900 transition-colors">Pricing</a> <a href="#gallery" class="text-stone-700 hover:text-amber-900 transition-colors">Gallery</a> <a href="#faq" class="text-stone-700 hover:text-amber-900 transition-colors">FAQ</a> <a href="#book-appointment" class="text-stone-700 hover:text-amber-900 transition-colors">Book Now</a>
+      </div>
+     </div>
+    </div>
+   </header><!-- Hero Section -->
+   <section class="hero-full-height text-white"><!-- Image Slider Background -->
+    <div class="image-slider"><img src="https://lh3.googleusercontent.com/p/AF1QipN8zjM_eZQ56kyoU-g_7fONsmO-xiu7Lwm88kw8=s1360-w1360-h1020-rw" alt="Espresso Nail &amp; Co salon" loading="eager" class="slider-image active" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2d1810 0%, #4a2c1f 100%)'; this.alt='Image unavailable';"> <img src="https://lh3.googleusercontent.com/p/AF1QipPl8AB2LOIsvnrI64pFWQZa-WWSW0EgcifPW7YE=s1360-w1360-h1020-rw" alt="Premium nail art" loading="eager" class="slider-image" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2d1810 0%, #4a2c1f 100%)'; this.alt='Image unavailable';"> <img src="https://lh3.googleusercontent.com/p/AF1QipPjifBv6_clwb4gEwChACFWdu1Gl6YKEtJV8v12=s1360-w1360-h1020-rw" alt="Professional manicure" loading="eager" class="slider-image" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2d1810 0%, #4a2c1f 100%)'; this.alt='Image unavailable';"> <img src="https://lh3.googleusercontent.com/p/AF1QipMOCdgzSYga9IfgtqLwZ6DUJna5n7IyYn1W9jNw=s1360-w1360-h1020-rw" alt="Nail extensions" loading="eager" class="slider-image" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2d1810 0%, #4a2c1f 100%)'; this.alt='Image unavailable';"> <img src="https://lh3.googleusercontent.com/p/AF1QipN8oAIwBr_VTUzrMIYogQIYVQe7USEU4cNBSdec=s1360-w1360-h1020-rw" alt="Bridal nail art" loading="eager" class="slider-image" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2d1810 0%, #4a2c1f 100%)'; this.alt='Image unavailable';">
+    </div><!-- Overlay -->
+    <div class="hero-overlay"></div><!-- Hero Content -->
+    <div class="hero-content">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="text-center">
+       <h2 id="hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-shadow"></h2>
+       <p id="hero-description" class="text-lg sm:text-xl text-stone-200 mb-8 max-w-3xl mx-auto leading-relaxed"></p>
+       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center"><a href="#book-appointment" id="cta-primary-btn" class="px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105"></a> <a href="https://wa.me/917021252875" target="_blank" rel="noopener noreferrer" id="cta-secondary-btn" class="px-8 py-4 bg-white text-amber-900 hover:bg-stone-100 font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105"></a>
+       </div>
+      </div>
+     </div>
+    </div><!-- Slider Dots -->
+    <div class="slider-dots" id="slider-dots"></div>
+   </section><!-- About Us Section -->
+   <section id="about" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid lg:grid-cols-2 gap-12 items-center"><!-- Left Column - Text Content -->
+      <div>
+       <div class="mb-6"><span class="text-amber-600 font-semibold text-sm uppercase tracking-wide">About Espresso Nail &amp; Co</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mt-3 mb-6">Where Nail Art Meets Passion &amp; Precision</h2>
+       </div>
+       <div class="space-y-4 text-stone-700 leading-relaxed">
+        <p class="text-lg">Welcome to <strong>Espresso Nail &amp; Co</strong>, Vashi's premier destination for luxurious nail care and stunning nail artistry. We're not just a salon – we're a creative space where beauty, hygiene, and self-expression come together.</p>
+        <p>Founded with a passion for perfection, our salon specializes in high-quality manicures, pedicures, nail art, and extensions. Every service is delivered with meticulous attention to detail, using premium products that are gentle on your nails and skin.</p>
+        <p>What sets us apart is our commitment to <strong>hygiene and safety</strong>. We follow international sanitization standards, use disposable tools where needed, and ensure every client enjoys a clean, comfortable experience.</p>
+        <p>Whether you're preparing for a special occasion, looking for everyday elegance, or want to express your unique style through nail art, our expert technicians are here to bring your vision to life.</p>
+       </div>
+       <div class="mt-8 grid grid-cols-2 gap-6">
+        <div class="text-center p-6 bg-amber-50 rounded-xl">
+         <div class="text-3xl font-bold text-amber-600 mb-2">
+          5+
+         </div>
+         <p class="text-stone-700 font-medium">Years Experience</p>
+        </div>
+        <div class="text-center p-6 bg-amber-50 rounded-xl">
+         <div class="text-3xl font-bold text-amber-600 mb-2">
+          1000+
+         </div>
+         <p class="text-stone-700 font-medium">Happy Clients</p>
+        </div>
+       </div>
+      </div><!-- Right Column - Values & Mission -->
+      <div class="space-y-6">
+       <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-100">
+        <div class="flex items-start mb-4">
+         <div class="text-4xl mr-4">
+          🎯
+         </div>
+         <div>
+          <h3 class="text-xl font-bold text-stone-900 mb-3">Our Mission</h3>
+          <p class="text-stone-700">To provide exceptional nail care services that enhance confidence, celebrate individuality, and prioritize health and hygiene above all.</p>
+         </div>
+        </div>
+       </div>
+       <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border-2 border-purple-100">
+        <div class="flex items-start mb-4">
+         <div class="text-4xl mr-4">
+          💎
+         </div>
+         <div>
+          <h3 class="text-xl font-bold text-stone-900 mb-3">Our Values</h3>
+          <ul class="space-y-3 text-stone-700">
+           <li class="flex items-start"><span class="text-amber-600 font-bold mr-2">•</span> <span><strong>Quality First:</strong> Premium products and expert techniques</span></li>
+           <li class="flex items-start"><span class="text-amber-600 font-bold mr-2">•</span> <span><strong>Hygiene Priority:</strong> Strict sanitization protocols</span></li>
+           <li class="flex items-start"><span class="text-amber-600 font-bold mr-2">•</span> <span><strong>Creative Excellence:</strong> Personalized designs for every client</span></li>
+           <li class="flex items-start"><span class="text-amber-600 font-bold mr-2">•</span> <span><strong>Customer Care:</strong> Warm, welcoming, professional service</span></li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 border-2 border-blue-100">
+        <div class="flex items-start mb-4">
+         <div class="text-4xl mr-4">
+          🌟
+         </div>
+         <div>
+          <h3 class="text-xl font-bold text-stone-900 mb-3">Why Clients Love Us</h3>
+          <p class="text-stone-700 italic">"The attention to detail, the cleanliness, and the beautiful nail art keep me coming back. Espresso Nail &amp; Co is truly the best in Vashi!"</p>
+          <p class="text-stone-600 text-sm mt-2">- Happy Client</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Services Section -->
+   <section id="services" class="py-16 sm:py-24 bg-stone-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Our Nail Services</h2>
+      <p class="text-stone-600 text-lg">Premium care with expert precision</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8"><!-- Manicure & Pedicure -->
+      <div class="card-hover bg-stone-50 rounded-xl p-8 border border-stone-200">
+       <div class="text-4xl mb-4">
+        💅
+       </div>
+       <h3 class="text-2xl font-bold text-stone-900 mb-4">Manicure &amp; Pedicure</h3>
+       <p class="text-stone-600 mb-4">Relax and refresh with professional nail care focusing on health, cuticle care, and long-lasting polish.</p>
+       <ul class="space-y-2 text-stone-700">
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Classic Manicure &amp; Pedicure</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Spa Manicure &amp; Pedicure</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Cuticle Care &amp; Nail Shaping</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Callus Removal &amp; Foot Care</li>
+       </ul>
+      </div><!-- Nail Art -->
+      <div class="card-hover bg-stone-50 rounded-xl p-8 border border-stone-200">
+       <div class="text-4xl mb-4">
+        🎨
+       </div>
+       <h3 class="text-2xl font-bold text-stone-900 mb-4">Nail Art</h3>
+       <p class="text-stone-600 mb-4">From elegant everyday styles to bold statement designs, fully customized to match your personality.</p>
+       <ul class="space-y-2 text-stone-700">
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Minimal &amp; French Nail Art</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Bridal Nail Art</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Party &amp; Festive Designs</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Hand-painted &amp; Trend-based Art</li>
+       </ul>
+      </div><!-- Nail Extensions -->
+      <div class="card-hover bg-stone-50 rounded-xl p-8 border border-stone-200">
+       <div class="text-4xl mb-4">
+        💎
+       </div>
+       <h3 class="text-2xl font-bold text-stone-900 mb-4">Nail Extensions</h3>
+       <p class="text-stone-600 mb-4">Perfectly shaped, durable, and stylish extensions with expert application and premium materials.</p>
+       <ul class="space-y-2 text-stone-700">
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Gel Nail Extensions</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Acrylic Nail Extensions</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Nail Refills &amp; Maintenance</li>
+        <li class="flex items-start"><span class="text-amber-600 mr-2">✓</span> Nail Repair Services</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- Why Choose Us -->
+   <section class="py-16 sm:py-24 bg-amber-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Why Choose Espresso Nail &amp; Co?</h2>
+      <p class="text-stone-600 text-lg">Your trusted partner in nail care excellence</p>
+     </div>
+     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        👩‍🎨
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Expert Technicians</h4>
+       <p class="text-stone-600 text-sm">Experienced &amp; certified nail professionals</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        ✨
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Premium Products</h4>
+       <p class="text-stone-600 text-sm">Skin-safe, high-quality materials</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        🧼
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Hygiene Standards</h4>
+       <p class="text-stone-600 text-sm">International safety protocols</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        🎯
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Personalized Designs</h4>
+       <p class="text-stone-600 text-sm">Custom nail art for every style</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        🛋️
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Comfortable Studio</h4>
+       <p class="text-stone-600 text-sm">Relaxing, welcoming environment</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+       <div class="text-3xl mb-3">
+        ⭐
+       </div>
+       <h4 class="font-semibold text-stone-900 mb-2">Trusted in Navi Mumbai</h4>
+       <p class="text-stone-600 text-sm">Your go-to nail destination</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Customer Testimonials -->
+   <section id="testimonials" class="py-16 sm:py-24 bg-gradient-to-br from-purple-50 to-pink-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">What Our Clients Say</h2>
+      <p class="text-stone-600 text-lg">Real reviews from happy customers in Vashi</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8"><!-- Testimonial 1 -->
+      <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+       <div class="flex items-center mb-4">
+        <div class="flex text-amber-500 text-xl">
+         ⭐⭐⭐⭐⭐
+        </div>
+       </div>
+       <p class="text-stone-700 mb-6 italic leading-relaxed">"Absolutely love the nail art here! The attention to detail is incredible. My bridal nails were stunning and lasted through all the wedding functions. Highly recommend!"</p>
+       <div class="flex items-center">
+        <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+         P
+        </div>
+        <div>
+         <h4 class="font-semibold text-stone-900">Priya Sharma</h4>
+         <p class="text-stone-500 text-sm">Vashi Resident</p>
+        </div>
+       </div>
+      </div><!-- Testimonial 2 -->
+      <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+       <div class="flex items-center mb-4">
+        <div class="flex text-amber-500 text-xl">
+         ⭐⭐⭐⭐⭐
+        </div>
+       </div>
+       <p class="text-stone-700 mb-6 italic leading-relaxed">"The hygiene standards are top-notch! They use fresh tools and the salon is always clean. The staff is friendly and professional. Best nail salon in Navi Mumbai!"</p>
+       <div class="flex items-center">
+        <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+         A
+        </div>
+        <div>
+         <h4 class="font-semibold text-stone-900">Ananya Desai</h4>
+         <p class="text-stone-500 text-sm">Regular Client</p>
+        </div>
+       </div>
+      </div><!-- Testimonial 3 -->
+      <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+       <div class="flex items-center mb-4">
+        <div class="flex text-amber-500 text-xl">
+         ⭐⭐⭐⭐⭐
+        </div>
+       </div>
+       <p class="text-stone-700 mb-6 italic leading-relaxed">"Been coming here for over a year now. The nail extensions are durable and look natural. The team really knows what they're doing. Worth every rupee!"</p>
+       <div class="flex items-center">
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+         M
+        </div>
+        <div>
+         <h4 class="font-semibold text-stone-900">Meera Patel</h4>
+         <p class="text-stone-500 text-sm">Loyal Customer</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- Google Reviews CTA -->
+     <div class="mt-12 text-center">
+      <div class="bg-white rounded-2xl p-8 inline-block shadow-lg">
+       <div class="flex items-center justify-center mb-4"><span class="text-4xl mr-3">⭐</span>
+        <div class="text-left">
+         <div class="text-3xl font-bold text-stone-900">
+          4.9/5.0
+         </div>
+         <p class="text-stone-600">Based on 50+ reviews</p>
+        </div>
+       </div>
+       <p class="text-stone-700 mb-4">See what others are saying about us</p><a href="https://g.page/r/CUpCt4MnXUBbEBM/review" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all shadow-md"> View All Google Reviews </a>
+      </div>
+     </div>
+    </div>
+   </section><!-- Pricing Section -->
+   <section id="pricing" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Transparent Pricing</h2>
+      <p class="text-stone-600 text-lg">Quality services at competitive rates</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Basic Services -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border-2 border-amber-200">
+       <div class="text-3xl mb-3">
+        💅
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-4">Basic Care</h3>
+       <ul class="space-y-3 text-stone-700">
+        <li class="flex justify-between"><span>Manicure</span> <span class="font-semibold">₹500+</span></li>
+        <li class="flex justify-between"><span>Pedicure</span> <span class="font-semibold">₹600+</span></li>
+        <li class="flex justify-between"><span>Polish Change</span> <span class="font-semibold">₹300+</span></li>
+       </ul>
+      </div><!-- Spa Services -->
+      <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200">
+       <div class="text-3xl mb-3">
+        🌸
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-4">Spa Treatments</h3>
+       <ul class="space-y-3 text-stone-700">
+        <li class="flex justify-between"><span>Spa Manicure</span> <span class="font-semibold">₹800+</span></li>
+        <li class="flex justify-between"><span>Spa Pedicure</span> <span class="font-semibold">₹1000+</span></li>
+        <li class="flex justify-between"><span>Combo Package</span> <span class="font-semibold">₹1500+</span></li>
+       </ul>
+      </div><!-- Nail Art -->
+      <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-200">
+       <div class="text-3xl mb-3">
+        🎨
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-4">Nail Art</h3>
+       <ul class="space-y-3 text-stone-700">
+        <li class="flex justify-between"><span>Simple Design</span> <span class="font-semibold">₹500+</span></li>
+        <li class="flex justify-between"><span>Premium Art</span> <span class="font-semibold">₹1000+</span></li>
+        <li class="flex justify-between"><span>Bridal Package</span> <span class="font-semibold">₹2500+</span></li>
+       </ul>
+      </div><!-- Extensions -->
+      <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200">
+       <div class="text-3xl mb-3">
+        💎
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-4">Extensions</h3>
+       <ul class="space-y-3 text-stone-700">
+        <li class="flex justify-between"><span>Gel Extensions</span> <span class="font-semibold">₹2000+</span></li>
+        <li class="flex justify-between"><span>Acrylic Full Set</span> <span class="font-semibold">₹2500+</span></li>
+        <li class="flex justify-between"><span>Refills</span> <span class="font-semibold">₹1200+</span></li>
+       </ul>
+      </div>
+     </div>
+     <div class="mt-8 bg-amber-100 rounded-xl p-6 text-center">
+      <p class="text-stone-800"><span class="font-bold">Note:</span> Final prices may vary based on design complexity and nail length. Call us for accurate quotes! <a href="tel:+917021252875" class="text-amber-700 underline font-semibold hover:text-amber-800">+91 70212 52875</a></p>
+     </div>
+    </div>
+   </section><!-- Process/How It Works -->
+   <section class="py-16 sm:py-24 bg-stone-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Your Nail Journey</h2>
+      <p class="text-stone-600 text-lg">What to expect during your visit</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8"><!-- Step 1 -->
+      <div class="text-center">
+       <div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4 shadow-lg">
+        1
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-3">Book &amp; Arrive</h3>
+       <p class="text-stone-600 leading-relaxed">Schedule your appointment online or via WhatsApp. Walk-ins are welcome too!</p>
+      </div><!-- Step 2 -->
+      <div class="text-center">
+       <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4 shadow-lg">
+        2
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-3">Consultation</h3>
+       <p class="text-stone-600 leading-relaxed">Discuss your style preferences, nail health, and choose from our design catalog.</p>
+      </div><!-- Step 3 -->
+      <div class="text-center">
+       <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4 shadow-lg">
+        3
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-3">Expert Service</h3>
+       <p class="text-stone-600 leading-relaxed">Relax while our professionals work their magic with premium products and tools.</p>
+      </div><!-- Step 4 -->
+      <div class="text-center">
+       <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4 shadow-lg">
+        4
+       </div>
+       <h3 class="text-xl font-bold text-stone-900 mb-3">Beautiful Results</h3>
+       <p class="text-stone-600 leading-relaxed">Leave with stunning nails and care tips to maintain them longer!</p>
+      </div>
+     </div><!-- Aftercare Tips -->
+     <div class="mt-16 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-200">
+      <h3 class="text-2xl font-bold text-stone-900 mb-6 text-center">💡 Nail Care Tips from Our Experts</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         🧴
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Moisturize Daily</h4>
+        <p class="text-stone-600 text-sm">Apply cuticle oil and hand cream to keep nails healthy and strong</p>
+       </div>
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         🧤
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Protect Your Hands</h4>
+        <p class="text-stone-600 text-sm">Wear gloves while cleaning or doing dishes to preserve polish</p>
+       </div>
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         ✂️
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Regular Maintenance</h4>
+        <p class="text-stone-600 text-sm">Visit us every 2-3 weeks for refills and nail health checks</p>
+       </div>
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         💧
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Stay Hydrated</h4>
+        <p class="text-stone-600 text-sm">Drink plenty of water for naturally strong, healthy nails</p>
+       </div>
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         🍊
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Nutrition Matters</h4>
+        <p class="text-stone-600 text-sm">Biotin-rich foods promote nail growth and prevent brittleness</p>
+       </div>
+       <div class="bg-white rounded-lg p-6 shadow-sm">
+        <div class="text-2xl mb-3">
+         ⏰
+        </div>
+        <h4 class="font-semibold text-stone-900 mb-2">Avoid Quick Fixes</h4>
+        <p class="text-stone-600 text-sm">Don't peel or pick at polish - come to us for safe removal</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- FAQ Section -->
+   <section id="faq" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Frequently Asked Questions</h2>
+      <p class="text-stone-600 text-lg">Everything you need to know about our services</p>
+     </div>
+     <div class="space-y-4"><!-- FAQ Item 1 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>How long does a manicure/pedicure session take?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        A classic manicure takes 30-45 minutes, while a pedicure takes 45-60 minutes. Spa treatments may take slightly longer (60-90 minutes) as they include additional relaxation steps.
+       </div>
+      </div><!-- FAQ Item 2 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>How long do nail extensions last?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        With proper care, gel and acrylic extensions can last 3-4 weeks. We recommend getting refills every 2-3 weeks to maintain the perfect look and nail health.
+       </div>
+      </div><!-- FAQ Item 3 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>Do you use sanitized equipment?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        Absolutely! Hygiene is our top priority. All reusable tools are sterilized using hospital-grade equipment. We also use disposable files, buffers, and foot liners for every client.
+       </div>
+      </div><!-- FAQ Item 4 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>Can I get custom nail art designs?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        Yes! We specialize in custom designs. Bring your reference images or describe your vision, and our artists will create something unique for you. We offer everything from minimalist to intricate bridal designs.
+       </div>
+      </div><!-- FAQ Item 5 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>What products do you use?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        We use premium, skin-safe products including internationally recognized brands. All our polishes are long-lasting, chip-resistant, and gentle on natural nails. We avoid harsh chemicals wherever possible.
+       </div>
+      </div><!-- FAQ Item 6 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>Do you accept walk-ins?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        Yes, we welcome walk-ins! However, to ensure you get your preferred time slot and avoid waiting, we highly recommend booking an appointment in advance via call or WhatsApp.
+       </div>
+      </div><!-- FAQ Item 7 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>What's your cancellation policy?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        We understand plans change! Please notify us at least 2 hours before your appointment if you need to cancel or reschedule. This helps us serve other clients better.
+       </div>
+      </div><!-- FAQ Item 8 -->
+      <div class="bg-stone-50 rounded-xl overflow-hidden border border-stone-200"><button class="faq-question w-full text-left px-6 py-5 font-semibold text-stone-900 hover:bg-stone-100 transition-colors flex justify-between items-center"> <span>Are nail extensions safe for natural nails?</span> <span class="faq-icon text-2xl">+</span> </button>
+       <div class="faq-answer hidden px-6 pb-5 text-stone-700 leading-relaxed">
+        When applied and removed correctly by professionals, extensions are perfectly safe. Our technicians are trained in proper application techniques that protect your natural nails. We also provide guidance on aftercare.
+       </div>
+      </div>
+     </div>
+     <div class="mt-10 text-center bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-200">
+      <h3 class="text-xl font-bold text-stone-900 mb-3">Still have questions?</h3>
+      <p class="text-stone-700 mb-4">We're here to help! Call or message us anytime.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="tel:+917021252875" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-all"> 📞 Call Us </a> <a href="https://wa.me/917021252875" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all"> 💬 WhatsApp </a>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery -->
+   <section id="gallery" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Our Work</h2>
+      <p class="text-stone-600 text-lg">See the artistry and precision that sets us apart</p>
+     </div>
+     <div class="image-gallery" id="gallery-grid">
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="0"><img src="https://lh3.googleusercontent.com/p/AF1QipN8zjM_eZQ56kyoU-g_7fONsmO-xiu7Lwm88kw8=s1360-w1360-h1020-rw" alt="Espresso Nail &amp; Co salon interior" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="1"><img src="https://lh3.googleusercontent.com/p/AF1QipPl8AB2LOIsvnrI64pFWQZa-WWSW0EgcifPW7YE=s1360-w1360-h1020-rw" alt="Premium nail art designs" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="2"><img src="https://lh3.googleusercontent.com/p/AF1QipPjifBv6_clwb4gEwChACFWdu1Gl6YKEtJV8v12=s1360-w1360-h1020-rw" alt="Professional manicure services" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="3"><img src="https://lh3.googleusercontent.com/p/AF1QipMOCdgzSYga9IfgtqLwZ6DUJna5n7IyYn1W9jNw=s1360-w1360-h1020-rw" alt="Nail extension work" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="4"><img src="https://lh3.googleusercontent.com/p/AF1QipN8oAIwBr_VTUzrMIYogQIYVQe7USEU4cNBSdec=s1360-w1360-h1020-rw" alt="Bridal nail art" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden shadow-lg" data-index="5"><img src="https://lh3.googleusercontent.com/p/AF1QipNxiGxKsLfuULJUywaC-afY6iEA4_mkVYStIj0z=w141-h176-n-k-no-nu" alt="Nail care treatment" loading="lazy" class="w-full h-64 object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d4a574 0%, #c99360 100%)'; this.alt='Image unavailable';">
+      </div>
+     </div>
+    </div>
+   </section><!-- Book Appointment Section -->
+   <section id="book-appointment" class="py-16 sm:py-24 bg-gradient-to-br from-amber-50 to-orange-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">Book Your Appointment</h2>
+      <p class="text-stone-600 text-lg">Reserve your spot for beautiful nails – we'll confirm within 24 hours</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12 items-start"><!-- Left Column - Appointment Info -->
+      <div class="space-y-8">
+       <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="text-2xl font-bold text-stone-900 mb-6">Why Book With Us?</h3>
+        <div class="space-y-6">
+         <div class="flex items-start">
+          <div class="text-3xl mr-4">
+           ⏰
+          </div>
+          <div>
+           <h4 class="font-semibold text-stone-900 mb-1">Flexible Scheduling</h4>
+           <p class="text-stone-600 text-sm">Choose a time that works best for you</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="text-3xl mr-4">
+           ✅
+          </div>
+          <div>
+           <h4 class="font-semibold text-stone-900 mb-1">Quick Confirmation</h4>
+           <p class="text-stone-600 text-sm">We'll confirm your booking within 24 hours</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="text-3xl mr-4">
+           💝
+          </div>
+          <div>
+           <h4 class="font-semibold text-stone-900 mb-1">Personalized Service</h4>
+           <p class="text-stone-600 text-sm">Tell us your preferences and we'll prepare</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="text-3xl mr-4">
+           🎨
+          </div>
+          <div>
+           <h4 class="font-semibold text-stone-900 mb-1">Expert Consultation</h4>
+           <p class="text-stone-600 text-sm">Free design consultation with every service</p>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="bg-amber-600 rounded-2xl p-8 text-white shadow-lg">
+        <h3 class="text-2xl font-bold mb-4">Walk-ins Welcome!</h3>
+        <p class="text-amber-50 mb-4">Don't have time to book ahead? We accept walk-ins based on availability.</p>
+        <div class="space-y-3">
+         <div class="flex items-center"><span class="text-amber-200 mr-2">������</span> <span>Call us: +91 70212 52875</span>
+         </div>
+         <div class="flex items-center"><span class="text-amber-200 mr-2">💬</span> <span>WhatsApp for instant updates</span>
+         </div>
+        </div>
+       </div>
+      </div><!-- Right Column - Booking Form -->
+      <div class="bg-white rounded-2xl p-8 shadow-xl">
+       <form id="booking-form" class="space-y-6">
+        <div class="grid sm:grid-cols-2 gap-6">
+         <div><label for="first-name" class="block text-sm font-semibold text-stone-900 mb-2">First Name *</label> <input type="text" id="first-name" name="first-name" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors" placeholder="Enter first name">
+         </div>
+         <div><label for="last-name" class="block text-sm font-semibold text-stone-900 mb-2">Last Name *</label> <input type="text" id="last-name" name="last-name" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors" placeholder="Enter last name">
+         </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+         <div><label for="email" class="block text-sm font-semibold text-stone-900 mb-2">Email Address *</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors" placeholder="you@example.com">
+         </div>
+         <div><label for="phone" class="block text-sm font-semibold text-stone-900 mb-2">Phone Number *</label> <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors" placeholder="+91 00000 00000">
+         </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+         <div><label for="service" class="block text-sm font-semibold text-stone-900 mb-2">Service *</label> <select id="service" name="service" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors bg-white"> <option value="">Select a service</option> <option value="manicure">Classic Manicure</option> <option value="pedicure">Classic Pedicure</option> <option value="spa-manicure">Spa Manicure</option> <option value="spa-pedicure">Spa Pedicure</option> <option value="nail-art">Nail Art</option> <option value="bridal-nail-art">Bridal Nail Art</option> <option value="gel-extensions">Gel Extensions</option> <option value="acrylic-extensions">Acrylic Extensions</option> <option value="nail-refill">Nail Refill</option> </select>
+         </div>
+         <div><label for="date" class="block text-sm font-semibold text-stone-900 mb-2">Preferred Date *</label> <input type="date" id="date" name="date" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors">
+         </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+         <div><label for="time" class="block text-sm font-semibold text-stone-900 mb-2">Preferred Time *</label> <select id="time" name="time" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors bg-white"> <option value="">Select time</option> <option value="10:00">10:00 AM</option> <option value="11:00">11:00 AM</option> <option value="12:00">12:00 PM</option> <option value="13:00">01:00 PM</option> <option value="14:00">02:00 PM</option> <option value="15:00">03:00 PM</option> <option value="16:00">04:00 PM</option> <option value="17:00">05:00 PM</option> <option value="18:00">06:00 PM</option> </select>
+         </div>
+         <div class="flex items-end">
+          <div class="w-full"><label class="flex items-center cursor-pointer"> <input type="checkbox" id="flexible-time" name="flexible-time" class="w-5 h-5 text-amber-600 border-stone-300 rounded focus:ring-amber-500"> <span class="ml-2 text-sm text-stone-700">I'm flexible with timing</span> </label>
+          </div>
+         </div>
+        </div>
+        <div><label for="message" class="block text-sm font-semibold text-stone-900 mb-2">Special Requests (Optional)</label> <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors resize-none" placeholder="Tell us about any design preferences, allergies, or special requirements..."></textarea>
+        </div>
+        <div class="pt-4"><button type="submit" id="submit-btn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:scale-105 focus:ring-4 focus:ring-amber-300"> Book My Appointment </button>
+        </div>
+        <div id="form-message" class="hidden p-4 rounded-lg text-center font-semibold"></div>
+       </form>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-16 sm:py-24 bg-stone-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid md:grid-cols-2 gap-12">
+      <div>
+       <h2 class="text-3xl sm:text-4xl font-bold mb-6">Visit the Best Nail Salon in Vashi</h2>
+       <p class="text-stone-300 text-lg mb-8">Looking for a professional nail salon in Navi Mumbai that delivers quality, style, and care? Espresso Nail &amp; Co is your go-to destination for beautiful, long-lasting nails.</p>
+       <div class="space-y-6">
+        <div class="flex items-start">
+         <div class="text-2xl mr-4">
+          📍
+         </div>
+         <div>
+          <h4 class="font-semibold mb-1">Location</h4>
+          <p id="address-text" class="text-stone-300"></p>
+         </div>
+        </div>
+        <div class="flex items-start">
+         <div class="text-2xl mr-4">
+          📞
+         </div>
+         <div>
+          <h4 class="font-semibold mb-1">Call / WhatsApp</h4><a href="tel:+917021252875" id="phone-link" class="text-amber-400 hover:text-amber-300 transition-colors"></a>
+         </div>
+        </div>
+       </div>
+       <div class="mt-8 flex flex-col sm:flex-row gap-4"><a href="tel:+917021252875" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-all text-center">Call Now</a> <a href="https://wa.me/917021252875" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all text-center">WhatsApp Us</a>
+       </div>
+      </div>
+      <div class="bg-stone-800 rounded-xl p-8">
+       <h3 class="text-2xl font-bold mb-4">Hygiene &amp; Safety First</h3>
+       <p class="text-stone-300 mb-6">Your safety is our priority. All tools are properly sanitized, disposable items are used wherever required, and every service follows strict hygiene protocols.</p>
+       <div class="border-t border-stone-700 pt-6">
+        <h4 class="font-semibold mb-3">We believe great nails are about:</h4>
+        <ul class="space-y-2 text-stone-300">
+         <li class="flex items-center"><span class="text-amber-400 mr-2">•</span> Beauty &amp; Confidence</li>
+         <li class="flex items-center"><span class="text-amber-400 mr-2">•</span> Health &amp; Hygiene</li>
+         <li class="flex items-center"><span class="text-amber-400 mr-2">•</span> Quality &amp; Precision</li>
+         <li class="flex items-center"><span class="text-amber-400 mr-2">��</span> Personal Expression</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="bg-stone-950 text-stone-400 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+     <p class="mb-2">© 2024 Espresso Nail &amp; Co. All rights reserved.</p>
+     <p class="text-sm">Premium Nail Salon in Vashi, Navi Mumbai</p>
+    </div>
+   </footer><!-- Lightbox -->
+   <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox">×</button> <button class="lightbox-arrow prev" id="lightbox-prev" aria-label="Previous image">‹</button>
+    <div class="lightbox-content"><img src="" alt="Gallery image" class="lightbox-image" id="lightbox-img">
+    </div><button class="lightbox-arrow next" id="lightbox-next" aria-label="Next image">›</button>
+   </div><!-- Lead Confirmation Modal -->
+   <div class="lightbox" id="lead-modal">
+    <div class="max-w-2xl w-full mx-4">
+     <div class="bg-white rounded-2xl p-8 shadow-2xl relative"><button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full hover:bg-stone-100 transition-colors text-stone-600 text-2xl" id="modal-close" aria-label="Close modal">×</button>
+      <div class="text-center mb-6">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-3xl font-bold text-stone-900 mb-2">Confirm Your Booking</h3>
+       <p class="text-stone-600">Review your details before sending to WhatsApp</p>
+      </div>
+      <div class="space-y-6 mb-8" id="lead-preview"><!-- Lead details will be inserted here -->
+      </div>
+      <div class="flex gap-4"><button id="modal-cancel" class="flex-1 px-6 py-3 bg-stone-200 hover:bg-stone-300 text-stone-800 font-semibold rounded-lg transition-all"> Edit Details </button> <button id="modal-confirm" class="flex-1 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-all shadow-lg"> Send to WhatsApp </button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Gallery images data
+    const galleryImages = [
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipN8zjM_eZQ56kyoU-g_7fONsmO-xiu7Lwm88kw8=s1360-w1360-h1020-rw",
+        alt: "Espresso Nail & Co salon interior"
+      },
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipPl8AB2LOIsvnrI64pFWQZa-WWSW0EgcifPW7YE=s1360-w1360-h1020-rw",
+        alt: "Premium nail art designs"
+      },
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipPjifBv6_clwb4gEwChACFWdu1Gl6YKEtJV8v12=s1360-w1360-h1020-rw",
+        alt: "Professional manicure services"
+      },
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipMOCdgzSYga9IfgtqLwZ6DUJna5n7IyYn1W9jNw=s1360-w1360-h1020-rw",
+        alt: "Nail extension work"
+      },
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipN8oAIwBr_VTUzrMIYogQIYVQe7USEU4cNBSdec=s1360-w1360-h1020-rw",
+        alt: "Bridal nail art"
+      },
+      {
+        src: "https://lh3.googleusercontent.com/p/AF1QipNxiGxKsLfuULJUywaC-afY6iEA4_mkVYStIj0z=w141-h176-n-k-no-nu",
+        alt: "Nail care treatment"
+      }
+    ];
+    
+    // Lightbox functionality
+    let currentLightboxIndex = 0;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      lightboxImg.src = galleryImages[index].src;
+      lightboxImg.alt = galleryImages[index].alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    function showPrevImage() {
+      currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentLightboxIndex].src;
+      lightboxImg.alt = galleryImages[currentLightboxIndex].alt;
+    }
+    
+    function showNextImage() {
+      currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentLightboxIndex].src;
+      lightboxImg.alt = galleryImages[currentLightboxIndex].alt;
+    }
+    
+    // Event listeners for gallery items
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        const index = parseInt(item.getAttribute('data-index'));
+        openLightbox(index);
+      });
+    });
+    
+    // Event listeners for lightbox controls
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrevImage);
+    lightboxNext.addEventListener('click', showNextImage);
+    
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showPrevImage();
+        if (e.key === 'ArrowRight') showNextImage();
+      }
+    });
+    
+    // Image Slider Functionality
+    let currentSlide = 0;
+    const sliderImages = document.querySelectorAll('.slider-image');
+    const sliderDotsContainer = document.getElementById('slider-dots');
+    const totalSlides = sliderImages.length;
+
+    // Create slider dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('slider-dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      sliderDotsContainer.appendChild(dot);
+    }
+
+    const sliderDots = document.querySelectorAll('.slider-dot');
+
+    function goToSlide(index) {
+      sliderImages[currentSlide].classList.remove('active');
+      sliderDots[currentSlide].classList.remove('active');
+      
+      currentSlide = index;
+      
+      sliderImages[currentSlide].classList.add('active');
+      sliderDots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next);
+    }
+
+    // Auto-advance slider every 4 seconds
+    setInterval(nextSlide, 4000);
+
+    // Config and SDK setup
+    const defaultConfig = {
+      salon_name: "Espresso Nail & Co",
+      tagline: "Premium Nail Salon in Vashi, Navi Mumbai",
+      hero_title: "Welcome to Espresso Nail & Co",
+      hero_description: "A modern nail salon in Vashi where beauty, hygiene, and precision come together. We specialize in high-quality nail care, nail art, and extensions designed to elevate your everyday look and special occasions.",
+      phone_number: "+91 70212 52875",
+      address: "Plot No. 62/5, Sector 29 Vashi Rd, Sector 28, Vashi, Navi Mumbai, Maharashtra 400070",
+      cta_primary: "Book Appointment",
+      cta_secondary: "WhatsApp Us",
+      background_color: "#fafaf9",
+      surface_color: "#ffffff",
+      text_color: "#1c1917",
+      primary_action_color: "#d97706",
+      secondary_action_color: "#78716c"
+    };
+
+    async function onConfigChange(config) {
+      const salonName = config.salon_name || defaultConfig.salon_name;
+      const tagline = config.tagline || defaultConfig.tagline;
+      const heroTitle = config.hero_title || defaultConfig.hero_title;
+      const heroDescription = config.hero_description || defaultConfig.hero_description;
+      const phoneNumber = config.phone_number || defaultConfig.phone_number;
+      const address = config.address || defaultConfig.address;
+      const ctaPrimary = config.cta_primary || defaultConfig.cta_primary;
+      const ctaSecondary = config.cta_secondary || defaultConfig.cta_secondary;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.getElementById('salon-name').textContent = salonName;
+      document.getElementById('tagline').textContent = tagline;
+      document.getElementById('hero-title').textContent = heroTitle;
+      document.getElementById('hero-description').textContent = heroDescription;
+      document.getElementById('cta-primary-btn').textContent = ctaPrimary;
+      document.getElementById('cta-secondary-btn').textContent = ctaSecondary;
+      document.getElementById('address-text').textContent = address;
+      document.getElementById('phone-link').textContent = phoneNumber;
+
+      document.getElementById('app-wrapper').style.backgroundColor = backgroundColor;
+      
+      const surfaceElements = document.querySelectorAll('.bg-white, .bg-stone-50');
+      surfaceElements.forEach(el => {
+        el.style.backgroundColor = surfaceColor;
+      });
+
+      const textElements = document.querySelectorAll('.text-stone-900, .text-stone-700, .text-stone-600');
+      textElements.forEach(el => {
+        el.style.color = textColor;
+      });
+
+      const primaryButtons = document.querySelectorAll('[href="tel:+917021252875"]');
+      primaryButtons.forEach(btn => {
+        btn.style.backgroundColor = primaryActionColor;
+      });
+
+      const secondaryElements = document.querySelectorAll('.text-stone-400, .text-stone-500');
+      secondaryElements.forEach(el => {
+        el.style.color = secondaryActionColor;
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["salon_name", config.salon_name || defaultConfig.salon_name],
+          ["tagline", config.tagline || defaultConfig.tagline],
+          ["hero_title", config.hero_title || defaultConfig.hero_title],
+          ["hero_description", config.hero_description || defaultConfig.hero_description],
+          ["phone_number", config.phone_number || defaultConfig.phone_number],
+          ["address", config.address || defaultConfig.address],
+          ["cta_primary", config.cta_primary || defaultConfig.cta_primary],
+          ["cta_secondary", config.cta_secondary || defaultConfig.cta_secondary]
+        ])
+      });
+    }
+
+    onConfigChange(defaultConfig);
+    
+    // Booking Form Functionality
+    const bookingForm = document.getElementById('booking-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formMessage = document.getElementById('form-message');
+    const leadModal = document.getElementById('lead-modal');
+    const leadPreview = document.getElementById('lead-preview');
+    const modalClose = document.getElementById('modal-close');
+    const modalCancel = document.getElementById('modal-cancel');
+    const modalConfirm = document.getElementById('modal-confirm');
+    
+    let currentBookingData = null;
+    
+    function openLeadModal(bookingData) {
+      currentBookingData = bookingData;
+      
+      // Create preview HTML
+      let previewHTML = `
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-amber-200">
+          <div class="flex items-start mb-4">
+            <div class="text-3xl mr-3">👤</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-stone-900 text-lg mb-2">Customer Details</h4>
+              <div class="space-y-1 text-stone-700">
+                <p><span class="font-semibold">Name:</span> ${bookingData.firstName} ${bookingData.lastName}</p>
+                <p><span class="font-semibold">Phone:</span> ${bookingData.phone}</p>
+                <p><span class="font-semibold">Email:</span> ${bookingData.email}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
+          <div class="flex items-start mb-4">
+            <div class="text-3xl mr-3">💅</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-stone-900 text-lg mb-2">Service Details</h4>
+              <div class="space-y-1 text-stone-700">
+                <p><span class="font-semibold">Service:</span> ${bookingData.serviceText}</p>
+                <p><span class="font-semibold">Date:</span> ${bookingData.formattedDate}</p>
+                <p><span class="font-semibold">Time:</span> ${bookingData.timeText}</p>
+                <p><span class="font-semibold">Flexible:</span> ${bookingData.flexibleTime ? 'Yes' : 'No'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      if (bookingData.message.trim()) {
+        previewHTML += `
+          <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200">
+            <div class="flex items-start mb-4">
+              <div class="text-3xl mr-3">📝</div>
+              <div class="flex-1">
+                <h4 class="font-bold text-stone-900 text-lg mb-2">Special Requests</h4>
+                <p class="text-stone-700 italic">"${bookingData.message}"</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      leadPreview.innerHTML = previewHTML;
+      leadModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLeadModal() {
+      leadModal.classList.remove('active');
+      document.body.style.overflow = '';
+      currentBookingData = null;
+    }
+    
+    function sendToWhatsApp() {
+      if (!currentBookingData) return;
+      
+      const data = currentBookingData;
+      
+      // Create beautifully formatted WhatsApp lead message
+      let whatsappMessage = `━━━━━━━━━━━━━━━━━━━━━\n`;
+      whatsappMessage += `💅 *ESPRESSO NAIL & CO*\n`;
+      whatsappMessage += `    New Appointment Request\n`;
+      whatsappMessage += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      
+      whatsappMessage += `👤 *CUSTOMER INFORMATION*\n`;
+      whatsappMessage += `┌─────────────────────\n`;
+      whatsappMessage += `│ Name: *${data.firstName} ${data.lastName}*\n`;
+      whatsappMessage += `│ Phone: ${data.phone}\n`;
+      whatsappMessage += `│ Email: ${data.email}\n`;
+      whatsappMessage += `└─────────────────────\n\n`;
+      
+      whatsappMessage += `💅 *APPOINTMENT DETAILS*\n`;
+      whatsappMessage += `┌─────────────────────\n`;
+      whatsappMessage += `│ Service: *${data.serviceText}*\n`;
+      whatsappMessage += `│ Date: ${data.formattedDate}\n`;
+      whatsappMessage += `│ Time: ${data.timeText}\n`;
+      whatsappMessage += `│ Flexible: ${data.flexibleTime ? '✓ Yes' : '✗ No'}\n`;
+      whatsappMessage += `└─────────────────────\n`;
+      
+      if (data.message.trim()) {
+        whatsappMessage += `\n📝 *SPECIAL REQUESTS*\n`;
+        whatsappMessage += `┌─────────────────────\n`;
+        whatsappMessage += `│ "${data.message}"\n`;
+        whatsappMessage += `└─────────────────────\n`;
+      }
+      
+      whatsappMessage += `\n━━━━━━━━━━━━━━━━━━━━━\n`;
+      whatsappMessage += `⏰ *Please confirm availability*\n`;
+      whatsappMessage += `📍 Vashi, Navi Mumbai\n`;
+      whatsappMessage += `━━━━━━━━━━━━━━━━━━━━━`;
+      
+      // Encode the message for URL
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      
+      // WhatsApp number
+      const whatsappNumber = '917021252875';
+      
+      // Open WhatsApp
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+      
+      // Close modal
+      closeLeadModal();
+      
+      // Show success message
+      formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+      formMessage.classList.add('bg-green-100', 'text-green-700');
+      formMessage.textContent = '✓ Opening WhatsApp with your booking details!';
+      
+      // Reset form
+      setTimeout(() => {
+        bookingForm.reset();
+        formMessage.classList.add('hidden');
+      }, 3000);
+    }
+    
+    // Modal event listeners
+    modalClose.addEventListener('click', closeLeadModal);
+    modalCancel.addEventListener('click', closeLeadModal);
+    modalConfirm.addEventListener('click', sendToWhatsApp);
+    
+    leadModal.addEventListener('click', (e) => {
+      if (e.target === leadModal) {
+        closeLeadModal();
+      }
+    });
+    
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Get form data
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const service = document.getElementById('service').value;
+      const serviceText = document.getElementById('service').selectedOptions[0].text;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const timeText = document.getElementById('time').selectedOptions[0].text;
+      const flexibleTime = document.getElementById('flexible-time').checked;
+      const message = document.getElementById('message').value;
+      
+      // Format the date nicely
+      const dateObj = new Date(date);
+      const formattedDate = dateObj.toLocaleDateString('en-IN', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      
+      // Open modal with booking data
+      openLeadModal({
+        firstName,
+        lastName,
+        email,
+        phone,
+        service,
+        serviceText,
+        date,
+        formattedDate,
+        time,
+        timeText,
+        flexibleTime,
+        message
+      });
+    });
+    
+    // Set minimum date to today
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    
+    // FAQ Toggle Functionality
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach((question) => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('.faq-icon');
+        const isOpen = !answer.classList.contains('hidden');
+        
+        if (isOpen) {
+          answer.classList.add('hidden');
+          icon.textContent = '+';
+        } else {
+          answer.classList.remove('hidden');
+          icon.textContent = '−';
+        }
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c839fd0c389257c',t:'MTc3MDEzOTQ5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
